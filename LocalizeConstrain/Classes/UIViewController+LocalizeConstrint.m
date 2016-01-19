@@ -25,8 +25,16 @@
             firstAttribute = [self changeAttributeValue:firstAttribute];
             secondAttribute = [self changeAttributeValue:secondAttribute];
             
+            NSLayoutRelation relation = NSLayoutRelationEqual;
+            if (constraint.relation == NSLayoutRelationGreaterThanOrEqual) {
+                relation = NSLayoutRelationLessThanOrEqual;
+            }
+            else if (constraint.relation == NSLayoutRelationLessThanOrEqual) {
+                relation = NSLayoutRelationGreaterThanOrEqual;
+            }
+            
             constraint.constant *= -1;
-            NSLayoutConstraint *constraintNew =  [NSLayoutConstraint constraintWithItem:constraint.firstItem attribute:firstAttribute relatedBy:constraint.relation toItem:constraint.secondItem attribute:secondAttribute multiplier:constraint.multiplier constant:constraint.constant];
+            NSLayoutConstraint *constraintNew =  [NSLayoutConstraint constraintWithItem:constraint.firstItem attribute:firstAttribute relatedBy:relation toItem:constraint.secondItem attribute:secondAttribute multiplier:constraint.multiplier constant:constraint.constant];
             
             
             [constraintsToRemove addObject:constraint];
